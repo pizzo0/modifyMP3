@@ -6,7 +6,9 @@ from tkinter import filedialog
 
 import os
 
+# you can add more keys if you want
 KEYS=['TITLE','ARTIST','ALBUM','DATE','GENRE']
+
 SPACE='####################################################################################'
 
 def clearTerminal():
@@ -33,10 +35,10 @@ def modifyMetadata(SONGPATH:str)->str:
     print(f"{SPACE}\nNo modify: Just press enter.\n{SPACE}")
     NEWTITLE=''
     for key in KEYS:
-        NEWVALUE=input(f'{key[0].upper()}{key[1:].lower()}:\n')
+        CURRVALUE= audio.get(key.lower(), [''])[0]
+        NEWVALUE=input(f'{key[0].upper()}{key[1:].lower()} (Current: {CURRVALUE}):\n')
         if NEWVALUE: audio[key.lower()]=NEWVALUE
-        if key == 'TITLE':
-            NEWTITLE=audio[key.lower()][0]
+        if key == 'TITLE': NEWTITLE=audio[key.lower()][0]
     saveAudio(audio)
     return NEWTITLE
 
@@ -52,15 +54,15 @@ def modifyAlbumCover(SONGPATH:str)->None:
                 ACFORMAT = ACPATH.split('.')[-1]
                 if ACFORMAT == 'jpg':
                     NEWAPIC=APIC(
-                        encoding=0,
+                        encoding=3,
                         mime='image/jpeg',
                         type=3, desc='Cover',
                         data=ALBUMCOVER.read()
                     )
                 elif ACFORMAT == 'png':
                     NEWAPIC=APIC(
-                        encoding=0,
-                        mime='image/jpeg',
+                        encoding=3,
+                        mime='image/png',
                         type=3, desc='Cover',
                         data=ALBUMCOVER.read()
                     )

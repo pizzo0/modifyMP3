@@ -13,6 +13,8 @@ Just execute the python script (m3.py)
 python m3.py
 ```
 
+or just open it i dunno
+
 The rest should be self explanatory.
 
 yeah
