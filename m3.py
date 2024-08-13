@@ -24,8 +24,11 @@ def modifyMP3(SONGPATH:str)->None:
         modifyAlbumCover(SONGPATH)
     if NEWTITLE:
         NEWSONGPATH='/'.join(SONGPATH.split('/')[:-1])+f'/{NEWTITLE}.mp3'
-        os.rename(SONGPATH,NEWSONGPATH)
-        print(f'{SPACE}\nRenamed file')
+        try:
+            os.rename(SONGPATH,NEWSONGPATH)
+            print(f'{SPACE}\nRenamed file')
+        except:
+            print(f'{SPACE}\nCouldn\'t rename file. Maybe there is a file with the same name.')
     print(f'{SPACE}\nDone!\n{SPACE}')
     os.system('pause')
     clearTerminal()
