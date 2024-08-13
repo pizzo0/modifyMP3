@@ -5,7 +5,7 @@ Just wanted to practice a bit.
 ## Requirements
 - Python 3.x.
 - [mutagen](https://mutagen.readthedocs.io/en/latest/).
--* [tkinter](https://docs.python.org/3/library/tkinter.html) (standard library).
+- [tkinter](https://docs.python.org/3/library/tkinter.html) (standard library).
 
 ## How to use
 Just execute the python script (m3.py)
