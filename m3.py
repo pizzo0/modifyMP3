@@ -41,36 +41,39 @@ def modifyMetadata(SONGPATH:str)->str:
 def modifyAlbumCover(SONGPATH:str)->None:
     print('New album art path:')
     ACPATH=filedialog.askopenfilename(filetypes=[("Image files",".jpg .png")])
-    print(f'{ACPATH}\n')
-    audio=openAudio('ID3',SONGPATH)
-    try:
-        with open(ACPATH,'rb') as ALBUMCOVER:
-            audio.delall('APIC')
-            ACFORMAT = ACPATH.split('.')[-1]
-            if ACFORMAT == 'jpg':
-                NEWAPIC=APIC(
-                    encoding=0,
-                    mime='image/jpeg',
-                    type=3, desc='Cover',
-                    data=ALBUMCOVER.read()
-                )
-            elif ACFORMAT == 'png':
-                NEWAPIC=APIC(
-                    encoding=0,
-                    mime='image/jpeg',
-                    type=3, desc='Cover',
-                    data=ALBUMCOVER.read()
-                )
-            else:
-                print('Path is not an image or image format is not supported')
-                audio.save()
-                return
-    except:
-        print(f'Wrong path\n{SPACE}')
-        audio.save()
-        return
-    audio.add(NEWAPIC)
-    saveAudio(audio)
+    if ACPATH:
+        print(f'{ACPATH}\n')
+        audio=openAudio('ID3',SONGPATH)
+        try:
+            with open(ACPATH,'rb') as ALBUMCOVER:
+                audio.delall('APIC')
+                ACFORMAT = ACPATH.split('.')[-1]
+                if ACFORMAT == 'jpg':
+                    NEWAPIC=APIC(
+                        encoding=0,
+                        mime='image/jpeg',
+                        type=3, desc='Cover',
+                        data=ALBUMCOVER.read()
+                    )
+                elif ACFORMAT == 'png':
+                    NEWAPIC=APIC(
+                        encoding=0,
+                        mime='image/jpeg',
+                        type=3, desc='Cover',
+                        data=ALBUMCOVER.read()
+                    )
+                else:
+                    print('Path is not an image or image format is not supported')
+                    audio.save()
+                    return
+        except:
+            print(f'Wrong path\n{SPACE}')
+            audio.save()
+            return
+        audio.add(NEWAPIC)
+        saveAudio(audio)
+    else:
+        print('No path given')
     
 def openAudio(type:str,SONGPATH:str)->ID3|EasyID3|None:
     audio={'EASYID3':EasyID3(SONGPATH),'ID3':ID3(SONGPATH)}.get(type.upper(), None)
@@ -94,9 +97,12 @@ if __name__=="__main__":
     root.iconphoto(True, icon)
     
     clearTerminal()
+    
     print(f"{SPACE}\nSong path:")
     SONGPATH=filedialog.askopenfilename(filetypes=[("Audio files",".mp3")])
     print(f"{SONGPATH}")
+    
     program(SONGPATH=SONGPATH)
+    
     os.system('pause')
     clearTerminal()
