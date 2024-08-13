@@ -12,7 +12,7 @@ SPACE='#########################################################################
 def clearTerminal():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def program(SONGPATH:str)->None:
+def modifyMP3(SONGPATH:str)->None:
     Q=input(f'{SPACE}\nDo you want to change its metadata? (y/n):\n')
     NEWTITLE=''
     if Q.lower()=="y":
@@ -25,6 +25,8 @@ def program(SONGPATH:str)->None:
         os.rename(SONGPATH,NEWSONGPATH)
         print(f'{SPACE}\nRenamed file')
     print(f'{SPACE}\nDone!\n{SPACE}')
+    os.system('pause')
+    clearTerminal()
 
 def modifyMetadata(SONGPATH:str)->str:
     audio=openAudio('EasyID3',SONGPATH)
@@ -40,7 +42,7 @@ def modifyMetadata(SONGPATH:str)->str:
 
 def modifyAlbumCover(SONGPATH:str)->None:
     print('New album art path:')
-    ACPATH=filedialog.askopenfilename(filetypes=[("Image files",".jpg .png")])
+    ACPATH=filedialog.askopenfilename(filetypes=[("Image file",".jpg .png")])
     if ACPATH:
         print(f'{ACPATH}\n')
         audio=openAudio('ID3',SONGPATH)
@@ -98,11 +100,14 @@ if __name__=="__main__":
     
     clearTerminal()
     
-    print(f"{SPACE}\nSong path:")
-    SONGPATH=filedialog.askopenfilename(filetypes=[("Audio files",".mp3")])
-    print(f"{SONGPATH}")
-    
-    program(SONGPATH=SONGPATH)
-    
-    os.system('pause')
-    clearTerminal()
+    print(f"{SPACE}\nSong(s) path:")
+    SONGPATHS=filedialog.askopenfilenames(filetypes=[("Audio file(s)",".mp3")])
+    if SONGPATHS:
+        for SONGPATH in SONGPATHS:
+            clearTerminal()
+            print(f"Song path:\n{SONGPATH}")
+            modifyMP3(SONGPATH=SONGPATH)
+    else:
+        print(f'{SPACE}\nNo song(s) selected.\n{SPACE}')
+        os.system('pause')
+        clearTerminal()
